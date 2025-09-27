@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Attendance Table</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" 
+    crossorigin="anonymous">
+
+  <style>
+    .btn-1, .btn-2 {
+      padding: 5px 10px;
+      border: none;
+      border-radius : 15px;   
+       font-size: 1rem;
+      font-family: "Poppins", sans-serif;
+      transition: background-color 0.3s ease-in, color 0.3s ease;
+      box-shadow: 1px 2px 15px rgb(217, 217, 217);
+       
+    }
+
+    .btn-1 {
+      background-color: lightgreen;
+      color: rgb(3, 0, 12);
+      margin-bottom: 10px;
+      font-size: 1rem;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .btn-1:hover {
+     background: rgb(16, 88, 2);
+     color: white;
+      animation: fadeSlideIn 1s ease-out forwards;
+      border: 0.5px   black;
+    }
+
+    .btn-2 {
+      background-color: gray;
+      color: rgb(255, 255, 255);
+    }
+    .btn-2:hover {
+      background-color: rgb(228, 33, 8);
+      color: rgb(255, 255, 255);
+    }
+
+    .submit-btn {
+      margin: 20px 0;
+      padding: 10px 20px;
+      font-size: 18px;
+      background: navy;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      
+    }
+    .submit-btn:disabled {
+      background: gray;
+      cursor: not-allowed;
+    }
+
+    @keyframes fadeSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+table tr td:nth-child(1){
+    text-align: center;
+    width: 10%;
+}
+table tr td:nth-child(2){
+    text-align: start;
+    width: 20%;
+}
+
+table tr  td:nth-child(3){
+    font-size: 1.2rem;
+    width: 15%;
+    text-align: center;
+}
+     table tr td:nth-child(4) {
+  
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  width: 20% !important;
+  
+} 
+
+  th{
+    background-color: rgb(160, 160, 215) !important;
+    color: rgb(60, 59, 57) !important;
+    padding: 20px !important;
+
+ }
+ @media (width:344px) {
+       th{
+         font-size: 0.6rem;
+       }
+       .btn-1 ,.btn-2{
+        font-size:0.6rem;
+         padding: 5px 10px;
+      
+      width: 60px;
+
+       }
+    }
+
+@media (width:360px) {
+    .btn-1 ,.btn-2{
+        font-size:0.6rem;
+         padding: 5px 10px;
+      border: none;
+      width: 55px;
+
+       }
+    
+}
+@media (max-width:480px) {
+       table tr td:nth-child(4) {
+ 
+  color: red;
+  font-weight: bold;    
+  text-align: center;
+  width:40%;
+}
+.btn-1 ,.btn-2{
+        font-size:0.6rem;
+         padding: 5px 10px;
+      border: none;
+      width: 55px;
+
+       }
+th{
+    background-color: rgb(160, 160, 215) !important;
+    color: rgb(60, 59, 57) !important;
+    padding: 10px !important;
+
+ }
+    
+}
+@media (max-width:540px) {
+       th{
+         font-size: .8rem;
+       }
+       .btn-1 ,.btn-2{
+        font-size:0.6rem;
+         padding: 5px 10px;
+      border: none;
+      width: 55px;
+
+       }
+       
+
+
+       table tr td:nth-child(4){
+        width: 35% !important;
+       }
+        table tr td:nth-child(2){
+        font-size: 0.8rem;
+         width: 25% !important;
+       }
+       table tr td:nth-child(3){
+        font-size: 0.8rem;
+        text-align: center;
+         width: 10% !important;
+        
+       }
+       .top-btn{
+  
+  font-size: 0.8rem;
+
+}
+      
+}
+
+ 
+
+
+@media (min-width:720px) {
+       table tr td:nth-child(4) {
+ 
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  width:40%;
+  
+   
+  
+}
+table tr td:nth-child(3){
+    background-color: rgba(13, 206, 13, 0.404); 
+}
+
+.btn-1{
+    margin-right: 10px;
+}
+}
+.top-btn:nth-child(1){
+  background-color: rgba(15, 154, 0, 0.956);
+  color: white;
+  border: none;
+
+}
+.top-btn:nth-child(2){
+  background-color: rgba(250, 42, 0, 0.844);
+  color: white;
+  border: none;
+
+}
+.top-btn:nth-child(3){
+  background-color: rgba(243, 122, 9, 0.841);
+  color: white;
+  border: none;
+
+}
+.top-btn:hover:nth-child(1){
+  background-color: rgb(27, 98, 1);
+  color: white;
+}
+.top-btn:hover:nth-child(2){
+  background-color: rgb(255, 0, 0);
+  color: white;
+}
+.top-btn:hover:nth-child(3){
+  background-color: rgb(255, 106, 0);
+  color: white;
+}
+input{
+    border: none;
+    text-align: center;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="container mt-5">
+    <div class="container pb-4  " style="text-align: end;">
+      <button class="btn top-btn me-2">Present</button><button class="btn top-btn me-2">Absent</button><button class="btn top-btn me-2">On Duty</button>
+    </div>
+    <table class="table   table-bordered">
+      <thead>
+        <tr class="th" style="background-color: aquamarine;">
+          <th>S.No</th>
+          <th>Stud Name</th>
+          <th>Updates</th>
+          <th>Attendance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1.</td>
+          <td>Frontend Developer</td>
+          <td  ><input type="text" id="values"></td>
+          <td>
+            <button class="btn-1">Present</button>
+            <button class="btn-2">Absent</button>
+          </td>
+        </tr>
+        <tr>
+          <td>2.</td>
+          <td>Software Developer</td>
+          <td  ><input type="text" id="values"></td>
+          <td>
+            <button class="btn-1">Present</button>
+            <button class="btn-2">Absent</button>
+          </td>
+        </tr>
+        <tr>
+          <td>3.</td>
+          <td>Backend Developer</td>
+          <td  > <input type="text" id="values"></td>
+          <td>
+            <button class="btn-1">Present</button>
+            <button class="btn-2">Absent</button>
+          </td>
+        </tr>
+          <tr>
+          <td>4.</td>
+          <td>Backend Developer</td>
+          <td  >  <input type="text" id="values"> </td>
+          <td>
+            <button class="btn-1">Present</button>
+            <button class="btn-2">Absent</button>
+          </td>
+        </tr>
+          <tr>
+          <td>5.</td>
+          <td>Backend Developer</td>
+          <td   ><input type="text" id="values"></td>
+          <td  >
+            <button class="btn-1">Present</button>
+            <button class="btn-2">Absent</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+ 
+    <button id="submitAttendance" class="submit-btn"  >Submit Attendance</button>
+  </div>
+
+  <script>
+document.querySelectorAll("tbody tr").forEach((row) => {
+
+  const presentBtn = row.querySelector(".btn-1");
+  const absentBtn = row.querySelector(".btn-2");
+  const Input = row.querySelector(" input"); 
+
+  let absentClickCount = 0;
+
+  presentBtn.addEventListener("click", () => {
+    Input.value = "Present";   
+    Input.style.backgroundColor = "green"; 
+      Input.style.color = "white";
+
+    absentBtn.style.backgroundColor = "gray";
+    absentBtn.textContent = "Absent";
+    presentBtn.style.backgroundColor = "green";
+    presentBtn.style.color = "white"; 
+    absentClickCount = 0;
+  });
+
+  absentBtn.addEventListener("click", () => {
+    absentClickCount++;
+
+    if (absentClickCount === 1) {
+      Input.value = "Absent";   
+      Input.style.backgroundColor = "rgb(233, 31, 31)";
+     Input.style.color = "white";
+
+      absentBtn.textContent = "Absent";
+      absentBtn.style.backgroundColor = "red";
+      presentBtn.style.backgroundColor = "gray";
+      presentBtn.style.color = "white";
+    } else {
+      Input.value = "On Duty";   
+      Input.style.backgroundColor = "rgb(255, 197, 91)";
+      Input.style.color = "black";
+
+      absentBtn.textContent = "On Duty";
+      absentBtn.style.backgroundColor = "orange";
+      presentBtn.style.backgroundColor = "gray";
+      presentBtn.style.color = "white";
+      absentClickCount = 0;
+    }
+  });
+  
+const topButtons = document.querySelectorAll(".top-btn");
+
+topButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const action = btn.textContent.trim();
+
+    document.querySelectorAll(" input").forEach((Input) => {
+      if (action === "Present") {
+        Input.value = "Present";
+        Input.style.backgroundColor = "green";
+        presentBtn.style.backgroundColor="green";
+        absentBtn.style.backgroundColor="gray";
+        presentBtn.style.color="white";
+        Input.style.color = "white";
+        absentBtn.textContent="Absent";
+      } else if (action === "Absent") {
+        Input.value = "Absent";
+        Input.style.backgroundColor = "rgb(233, 31, 31)";
+        Input.style.color = "white";
+        absentBtn.style.backgroundColor="red";
+        absentBtn.textContent="Absent";
+        presentBtn.style.backgroundColor="gray";
+        presentBtn.style.color="white";
+      } else if (action === "On Duty") {
+        Input.value = "On Duty";
+        Input.style.backgroundColor = "rgb(255, 197, 91)";
+       Input.style.color = "black";
+       absentBtn.textContent="On Duty";
+       absentBtn.style.backgroundColor="orange";
+       presentBtn .style.backgroundColor="gray";
+       presentBtn.style.color="white";
+      }
+    });
+  });
+});
+
+
+});
+document.getElementById("submitAttendance").addEventListener("click", () => {
+  document.querySelectorAll(".btn-1, .btn-2").forEach((btn) => {
+    btn.disabled = true;
+  });
+  document.querySelectorAll(".status input").forEach((input) => {
+    input.readOnly = true; 
+  });
+  document.getElementById("submitAttendance").disabled = true;
+  alert("Attendance has been submitted and locked!");
+});
+
+
+</script>
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" 
+    crossorigin="anonymous"></script>
+
+</body>
+</html>
