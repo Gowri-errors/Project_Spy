@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Library Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .card {
+      width: 45%;
+      min-width: 140px;
+      height: 200px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 10px;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      color: #333;
+    }
+
+    .login-form {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      padding: 30px 20px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      animation: fadeIn 0.5s ease forwards;
+      z-index: 10;
+    }
+
+    .login-form h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .login-form input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .login-form button {
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .back-btn {
+      margin-top: 10px;
+      background: #6c757d;
+      color: white;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+ 
+    @media (max-width: 600px) {
+      .card {
+        width: 100%;
+      }
+
+      .login-form {
+        width: 100%;
+      }
+    }
+
+ 
+    .card.hide {
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  
+    <div class="card student-card" onclick="showLogin('student')">
+      <img src="https://img.icons8.com/fluency/96/student-center.png" alt="Student" />
+      <h2>Student Login</h2>
+    </div>
+
+ 
+    <div class="card staff-card" onclick="showLogin('staff')">
+      <img src="https://img.icons8.com/fluency/96/teacher.png" alt="Staff" />
+      <h2>Staff Login</h2>
+    </div>
+
+ 
+    <div class="login-form student-form" id="studentForm">
+      <h2>Student Login</h2>
+      <input type="text" placeholder="Student ID">
+      <input type="password" placeholder="Password">
+      <button>Login</button>
+      <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+   
+    <div class="login-form staff-form" id="staffForm">
+      <h2>Staff Login</h2>
+      <input type="text" placeholder="Staff ID">
+      <input type="password" placeholder="Password">
+      <button>Login</button>
+      <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+  </div>
+
+  <script>
+    function showLogin(type) {
+      const studentCard = document.querySelector('.student-card');
+      const staffCard = document.querySelector('.staff-card');
+      const studentForm = document.getElementById('studentForm');
+      const staffForm = document.getElementById('staffForm');
+
+      if (type === 'student') {
+        studentCard.classList.remove('hide');
+        staffCard.classList.add('hide');
+        studentForm.style.display = 'flex';
+        staffForm.style.display = 'none';
+      } else {
+        staffCard.classList.remove('hide');
+        studentCard.classList.add('hide');
+        staffForm.style.display = 'flex';
+        studentForm.style.display = 'none';
+      }
+    }
+
+    function goBack() {
+   
+      document.querySelector('.student-card').classList.remove('hide');
+      document.querySelector('.staff-card').classList.remove('hide');
+
+       
+      document.getElementById('studentForm').style.display = 'none';
+      document.getElementById('staffForm').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
