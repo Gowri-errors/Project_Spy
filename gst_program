@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Technology Store Cart</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f9f9f9;     
+    }
+    .h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .controls, .add-item-form, .summary, .submit-section {
+      margin-bottom: 20px;
+      background: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+    }
+    .controls label, .add-item-form label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #f0f0f0;
+    }
+    input[type="number"] {
+      padding: 5px;
+      width: 80px;
+      box-sizing: border-box;
+    }
+    select {
+      padding: 5px;
+    }
+    .summary p {
+      margin: 8px 0;
+    }
+    .label {
+      font-weight: bold;
+    }
+    .btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .btn-submit {
+      background-color: #28a745;
+      color: white;
+      border: none;
+    }
+    .span{
+      color:#666464f1;
+      background-color: rgba(247, 227, 255, 0.897);
+      padding: 10px;
+      border-radius: 10px ;
+        box-shadow: 6px 8px 10px gray;
+    
+    }
+    #itemDropdown{
+ border-radius: 10px;
+ border: none;
+ outline: none;
+ background-color: rgba(255, 147, 7, 0.685);
+ color:rgb(255, 255, 255);
+ padding: 10px;
+ padding-right: 15px;
+ font-size: 1rem; 
+ font-weight:bold;
+
+    }
+    #itemDropdown:hover{
+
+box-shadow: 10px 12px 20px   gray;
+ animation: targetbox 1s infinite;
+ border: none;
+    }
+@keyframes targetbox {
+  0%{
+    box-shadow: 10px 12px 10px   gray;  
+  }
+  50%{
+    box-shadow: 10px 12px 20px   gray;
+  }
+  100%{
+    box-shadow: 10px 12px 10px   gray;
+  }  
+}
+option{
+  border-radius: 10px;
+}
+  </style>
+</head>
+<body>
+
+<h1 class="h1" ><span class="span">Code-IQ's Course Cart</span></h1>
+
+<div class="add-item-form">
+  <h3>Add Item to Cart</h3>
+  <label>Select Item:
+    <select id="itemDropdown" onchange="fillItemDetails()">
+     
+  <option value="" >-- Select an Item --</option>
+      <option value="Laptop">Laptop</option>
+      <option value="Keyboard">Keyboard</option>
+      <option value="Mouse">Mouse</option>
+      <option value="Monitor">Monitor</option>
+      <option value="Webcam">Webcam</option>
+      <option value="Printer">Printer</option>
+    </select>
+  </label>
+  <label>Rate: <input type="number" id="itemRate" min="0" step="0.01" oninput="recalculateAddItemTotal()" /></label>
+  <label>GST %: <input type="number" id="itemGST" min="0" step="0.01" oninput="recalculateAddItemTotal()" /></label>
+  <label>Qty: <input type="number" id="itemQty" min="1" step="1" value="1" oninput="recalculateAddItemTotal()" /></label>
+  <label>Total: ₹<span id="addItemTotal">0.00</span></label>
+  <button onclick="addItem()">Add Item</button>
+</div>
+<div class="controls">
+  <label>Discount (%): <input type="number" id="txtTdisval" value="0" min="0" max="100" step="0.01" oninput="recalculateCart()" /></label>
+  <label>Adjust Amount: <input type="number" id="adjustAmount" value="0" step="0.01" oninput="recalculateCart()" /></label>
+  <label>Tax Type:
+    <select id="lblAllAmt" onchange="recalculateCart()">
+      <option value="Excluding Tax">Excluding Tax</option>
+      <option value="Including Tax">Including Tax</option>
+      <option value="No Tax">No Tax</option>
+    </select>
+  </label>
+</div>
+<table id="TestTable">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Rate</th>
+      <th>GST%</th>
+      <th>Qty</th>
+      <th>GST Amt</th>
+      <th>Total</th>
+      <th>Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+<div class="summary">
+  <p><span class="label">No. of Items:</span> <span id="lblNoItems">0</span></p>
+  <p><span class="label">Total Quantity:</span> <span id="lblTQty">0.00</span></p>
+  <p><span class="label">Subtotal:</span> ₹<span id="lblTsubtotal">0.00</span></p>
+  <p><span class="label">GST Amount:</span> ₹<span id="lblTGST">0.00</span></p>
+  <p><span class="label">Discount Amount:</span> ₹<span id="lblTDiscount">0.00</span></p>
+  <p><span class="label">Adjust Amount:</span> ₹<span id="lblAdjustAmount">0.00</span></p>
+  <p><span class="label">Round Off:</span> ₹<span id="lblRoundOff">0.00</span></p>
+  <p><strong><span class="label">Payable Amount:</span> ₹<span id="lblPayableAmt">0.00</span></strong></p>
+</div>
+<div class="submit-section">
+  <button class="btn btn-submit" onclick="submitOrder()">Submit Order</button>
+</div>
+<script>
+  const techItems = {
+    "Laptop": { rate: 60000, gst: 18 },
+    "Keyboard": { rate: 1500, gst: 18 },
+    "Mouse": { rate: 800, gst: 18 },
+    "Monitor": { rate: 12000, gst: 18 },
+    "Webcam": { rate: 2500, gst: 18 },
+    "Printer": { rate: 9000, gst: 12 }
+  };
+  function fillItemDetails() {
+    const selected = document.getElementById("itemDropdown").value;
+    if (techItems[selected]) {
+      document.getElementById("itemRate").value = techItems[selected].rate.toFixed(2);
+      document.getElementById("itemGST").value = techItems[selected].gst.toFixed(2);
+    } else {
+      document.getElementById("itemRate").value = '';
+      document.getElementById("itemGST").value = '';
+    }
+    recalculateAddItemTotal();
+  }
+
+  // Calculate total for the add item section live
+  function recalculateAddItemTotal() {
+    const rate = parseFloat(document.getElementById("itemRate").value) || 0;
+    const gst = parseFloat(document.getElementById("itemGST").value) || 0;
+    const qty = parseFloat(document.getElementById("itemQty").value) || 0;
+
+    // Assuming "Excluding Tax" for this total preview
+    let total = rate * qty;
+    document.getElementById("addItemTotal").innerText = total.toFixed(2);
+  }
+
+  function addItem() {
+    const name = document.getElementById("itemDropdown").value.trim();
+    const rate = parseFloat(document.getElementById("itemRate").value);
+    const gst = parseFloat(document.getElementById("itemGST").value);
+    const qty = parseFloat(document.getElementById("itemQty").value);
+
+    if (!name) {
+      alert("Please select an item.");
+      return;
+    }
+    if (isNaN(rate) || rate < 0) {
+      alert("Please enter a valid rate.");
+      return;
+    }
+    if (isNaN(gst) || gst < 0) {
+      alert("Please enter a valid GST %.");
+      return;
+    }
+    if (isNaN(qty) || qty < 1) {
+      alert("Please enter a valid quantity (minimum 1).");
+      return;
+    }
+
+    const tbody = document.getElementById("TestTable").querySelector("tbody");
+    const newRow = tbody.insertRow();
+
+    newRow.innerHTML = `
+      <td>${name}</td>
+      <td><input type="number" class="rate" value="${rate.toFixed(2)}" min="0" step="0.01" oninput="recalculateCart()" /></td>
+      <td><input type="number" class="gst" value="${gst.toFixed(2)}" min="0" step="0.01" oninput="recalculateCart()" /></td>
+      <td><input type="number" class="qty" value="${qty}" min="1" step="1" oninput="recalculateCart()" /></td>
+      <td><span class="gstamt">0.00</span></td>
+      <td><span class="total">0.00</span></td>
+      <td><button onclick="removeItem(this)">X</button></td>
+    `;
+
+    // Reset add item form
+    document.getElementById("itemDropdown").value = '';
+    document.getElementById("itemRate").value = '';
+    document.getElementById("itemGST").value = '';
+    document.getElementById("itemQty").value = 1;
+    document.getElementById("addItemTotal").innerText = "0.00";
+
+    recalculateCart();
+  }
+
+  function removeItem(button) {
+    const row = button.closest('tr');
+    row.remove();
+    recalculateCart();
+  }
+
+  function recalculateCart() {
+    const rows = document.querySelectorAll("#TestTable tbody tr");
+    let subtotal = 0;
+    let gstamt = 0;
+    let totalQty = 0;
+    const taxType = document.getElementById("lblAllAmt").value;
+    const discountPercent = parseFloat(document.getElementById("txtTdisval").value) || 0;
+    const adjustAmount = parseFloat(document.getElementById("adjustAmount").value) || 0;
+
+    rows.forEach(row => {
+      const rateInput = row.querySelector("input.rate");
+      const gstInput = row.querySelector("input.gst");
+      const qtyInput = row.querySelector("input.qty");
+
+      const rate = parseFloat(rateInput.value) || 0;
+      const gst = parseFloat(gstInput.value) || 0;
+      const qty = parseFloat(qtyInput.value) || 0;
+
+      // Calculate total and GST amt depending on tax type
+      let itemTotal = rate * qty;
+      let itemGST = 0;
+
+      if (taxType === "Including Tax") {
+        itemGST = itemTotal - (itemTotal * (100 / (100 + gst)));
+      } else if (taxType === "Excluding Tax") {
+        itemGST = itemTotal * gst / 100;
+      } else if (taxType === "No Tax") {
+        itemGST = 0;
+      }
+
+      subtotal += itemTotal;
+      gstamt += itemGST;
+      totalQty += qty;
+
+      row.querySelector(".gstamt").innerText = itemGST.toFixed(2);
+      row.querySelector(".total").innerText = itemTotal.toFixed(2);
+    });
+
+    const discountAmount = subtotal * discountPercent / 100;
+    const stotal = subtotal - discountAmount;
+
+    let netamt;
+    if (taxType === "Excluding Tax") {
+      netamt = stotal + gstamt;
+    } else if (taxType === "Including Tax") {
+      netamt = stotal;
+    } else { // No Tax
+      netamt = stotal;
+    }
+
+    netamt += adjustAmount;
+
+    const roundedAmt = Math.round(netamt);
+    const roundOff = (netamt - roundedAmt).toFixed(2);
+
+    document.getElementById("lblNoItems").innerText = rows.length;
+    document.getElementById("lblTQty").innerText = totalQty.toFixed(2);  
+
+    document.getElementById("lblTsubtotal").innerText = subtotal.toFixed(2);
+    document.getElementById("lblTGST").innerText = gstamt.toFixed(2);
+    document.getElementById("lblTDiscount").innerText = discountAmount.toFixed(2);
+
+    document.getElementById("lblAdjustAmount").innerText = adjustAmount.toFixed(2);
+    document.getElementById("lblRoundOff").innerText = roundOff;
+    document.getElementById("lblPayableAmt").innerText = roundedAmt.toFixed(2);
+  }
+  function submitOrder() {
+    const rows = document.querySelectorAll("#TestTable tbody tr");
+    if (rows.length === 0) {
+      alert("Cart is empty.");
+      return;
+    }
+    let items = [];
+    rows.forEach(row => {
+      items.push({
+        name: row.cells[0].innerText,
+
+        rate: parseFloat(row.querySelector("input.rate").value),
+        gst: parseFloat(row.querySelector("input.gst").value),
+
+        qty: parseFloat(row.querySelector("input.qty").value),
+        gstamt: parseFloat(row.querySelector(".gstamt").innerText),
+        total: parseFloat(row.querySelector(".total").innerText)
+      });
+    });
+    const orderSummary = {
+      items,
+      totalItems: items.length,
+      totalQty: parseFloat(document.getElementById("lblTQty").innerText),
+      subtotal: parseFloat(document.getElementById("lblTsubtotal").innerText),
+
+      gstAmt: parseFloat(document.getElementById("lblTGST").innerText),
+      discount: parseFloat(document.getElementById("lblTDiscount").innerText),
+
+      adjustAmount: parseFloat(document.getElementById("lblAdjustAmount").innerText),
+      roundOff: parseFloat(document.getElementById("lblRoundOff").innerText),
+      payableAmt: parseFloat(document.getElementById("lblPayableAmt").innerText),
+    };
+    console.log("Order Submitted:", orderSummary);
+    alert("Order submitted successfully! Check console for full order details.");
+  }
+  window.onload = () => {
+    recalculateCart();
+    recalculateAddItemTotal();
+  };
+</script>
+
+</body>
+</html>
