@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Library Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      position: relative;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .card {
+      width: 45%;
+      min-width: 140px;
+      height: 200px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 10px;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      color: #333;
+    }
+
+    .login-form {
+      display: none;
+      flex-direction: column;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      gap: 15px;
+      animation: fadeIn 0.5s ease forwards;
+      z-index: 10;
+    }
+
+    .login-form input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .login-form button {
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .back-btn {
+      background: #6c757d;
+    }
+
+    .card.hide {
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        width: 100%;
+      }
+    }
+
+ 
+    .profile-card {
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      display: none;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 30px;
+      max-width: 700px;
+      margin: 0 auto;
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+
+    .profile-card img {
+      width: 180px;
+      height: 200px;
+      border-radius: 15px 25px 35px 10px;
+    }
+
+    .info {
+      flex: 1;
+    }
+
+    .info-list {
+      display: grid;
+      row-gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: 110px 20px 2fr;
+      align-items: center;
+      font-size: 18px;
+    }
+
+    .label {
+      font-weight: 600;
+      color: #555;
+    }
+
+    .colon {
+      text-align: center;
+    }
+
+    .value input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .value input:focus {
+      border-color: sienna;
+      outline: none;
+      box-shadow: 0 0 0 0.2rem rgba(160, 82, 45, 0.25);
+    }
+
+    .btns {
+      display: flex;
+      gap: 15px;
+      justify-content: end;
+    }
+
+    .btns button {
+      border: none;
+      padding: 6px 20px;
+      border-radius: 12px 22px 8px 22px;
+      border-bottom: 10px solid sienna;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+ 
+    <div class="card-container" id="loginCards">
+      <div class="card student-card" onclick="showLogin('student')">
+        <img src="https://img.icons8.com/fluency/96/student-center.png" alt="Student" />
+        <h2>Student Login</h2>
+      </div>
+
+      <div class="card staff-card" onclick="showLogin('staff')">
+        <img src="https://img.icons8.com/fluency/96/teacher.png" alt="Staff" />
+        <h2>Staff Login</h2>
+      </div>
+    </div>
+
+ 
+    <div class="login-form" id="studentForm">
+      <h2 class="text-center">Student Login</h2>
+      <input type="text" id="studentId" placeholder="Student ID">
+      <input type="password" id="studentPass" placeholder="Password">
+      <button onclick="loginStudent()">Login</button>
+      <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+ 
+    <div class="login-form" id="staffForm">
+      <h2>Staff Login</h2>
+      <input type="text" placeholder="Staff ID">
+      <input type="password" placeholder="Password">
+      <button>Login</button>
+      <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+   
+    <div class="profile-card" id="profilePage">
+      <div class="images">
+        <img src="stud_png/stud.jpeg" alt="Student Photo" class="img-fluid">
+      </div>
+
+      <div class="info">
+        <div class="info-list">
+          <div class="info-row">
+            <div class="label">Name</div>
+            <div class="colon">:</div>
+            <div class="value"><input type="text" id="pName" readonly></div>
+          </div>
+          <div class="info-row">
+            <div class="label">Year</div>
+            <div class="colon">:</div>
+            <div class="value"><input type="text" id="pYear" readonly></div>
+          </div>
+          <div class="info-row">
+            <div class="label">Department</div>
+            <div class="colon">:</div>
+            <div class="value"><input type="text" id="pDept" readonly></div>
+          </div>
+        </div>
+        <div class="btns mt-3">
+          <button>Info</button>
+          <button>Confirm</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const students = [
+      {
+        id: "1001",
+        password: "pass123",
+        name: "B. Gowrishankar",
+        year: "2025",
+        department: "ECE"
+      },
+      {
+        id: "1002",
+        password: "abc456",
+        name: "Junior",
+        year: "2024",
+        department: "CSE"
+      }
+    ];
+
+    function showLogin(type) {
+      document.getElementById("loginCards").style.display = "none";
+      document.getElementById("studentForm").style.display = type === 'student' ? 'flex' : 'none';
+      document.getElementById("staffForm").style.display = type === 'staff' ? 'flex' : 'none';
+    }
+
+    function goBack() {
+      document.getElementById("loginCards").style.display = "flex";
+      document.getElementById("studentForm").style.display = "none";
+      document.getElementById("staffForm").style.display = "none";
+      document.getElementById("profilePage").style.display = "none";
+    }
+
+    function loginStudent() {
+      const id = document.getElementById("studentId").value.trim();
+      const pass = document.getElementById("studentPass").value.trim();
+      const student = students.find(s => s.id === id && s.password === pass);
+
+      if (student) {
+        
+        document.getElementById("pName").value = student.name;
+        document.getElementById("pYear").value = student.year;
+        document.getElementById("pDept").value = student.department;
+
+        
+        document.getElementById("studentForm").style.display = "none";
+        document.getElementById("profilePage").style.display = "flex";
+      } else {
+        alert("Invalid Student ID or Password");
+      }
+    }
+  </script>
+</body>
+</html>
