@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -226,7 +226,7 @@
    
     <div class="profile-card" id="profilePage">
       <div class="images">
-        <img src="stud_png/stud.jpeg" alt="Student Photo" class="img-fluid">
+        <img src="stud_png/stud2.jpg" alt="Student Photo" class="img-fluid">
       </div>
 
       <div class="info">
