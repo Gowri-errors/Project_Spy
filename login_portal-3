@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Library Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+    }
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      gap: 15px;
+      animation: fadeIn 0.5s ease forwards;
+      z-index: 10;
+    }
+    .login-form h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .login-form input, .login-form select {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: #00ff15;
+     
+    }
+    .login-form button {
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .profile-card {
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      display: none;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 30px;
+      max-width: 700px;
+      margin: 0 auto;
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+    .profile-card img {
+      width: 180px;
+      height: 200px;
+      border-radius: 15px 25px 35px 10px;
+    }
+    .info {
+      flex: 1;
+    }
+    .info-list {
+      display: grid;
+      row-gap: 15px;
+      margin-bottom: 20px;
+    }
+    .info-row {
+      display: grid;
+      grid-template-columns: 110px 20px 2fr;
+      align-items: center;
+      font-size: 18px;
+    }
+    .label {
+      font-weight: 600;
+      color: #555;
+    }
+    .colon {
+      text-align: center;
+    }
+    .value input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    .value input:focus {
+      border-color: sienna;
+      outline: none;
+      box-shadow: 0 0 0 0.2rem rgba(160, 82, 45, 0.25);
+    }
+    .btns {
+      display: flex;
+      gap: 15px;
+      justify-content: end;
+    }
+    .btns button {
+      border: none;
+      padding: 6px 20px;
+      border-radius: 12px 22px 8px 22px;
+      border-bottom: 10px solid sienna;
+      font-weight: 500;
+    }
+    .back-btn {
+      background: #6c757d;
+      color: white;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form class="login-form" id="loginForm" onsubmit="event.preventDefault(); loginUser();">
+      <h2>Library Login</h2>
+      <select id="role" required>
+        <option value="" disabled selected>Select Role</option>
+        <option value="student">Student</option>
+        <option value="staff">Staff</option>
+      </select>
+      <input type="text" id="userId" placeholder="User ID" required>
+      <input type="password" id="userPass" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+
+
+
+
+
+
+    <form  ></form>
+    <div class="profile-card" id="profilePage">
+      <div class="images">
+        <img src="stud_png/stud2.jpg" alt="User Photo" class="img-fluid">
+      </div>
+      <div class="info">
+        <div class="info-list">
+          <div class="info-row">
+            <div class="label">Name</div>
+            <div class="colon">:</div>
+            <div class="value"><input type="text" id="pName" readonly></div>
+          </div>
+          <div class="info-row" id="yearRow">
+            <div class="label">Year</div>
+            <div class="colon">:</div>
+            <div class="value"><input type="text" id="pYear" readonly></div>
+          </div>
+          <div class="info-row">
+            <div class="label">Department</div>
+            <div class="colon">:</div>
+            <div class="value"><input type="text" id="pDept" readonly></div>
+          </div>
+        </div>
+        <div class="btns mt-3">
+          <button>Info</button>
+          <button>Confirm</button>
+        </div>
+        <button class="back-btn" onclick="goBack()">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Demo data for students and staff
+    const students = [
+      {
+        id: "1001",
+        password: "pass123",
+        name: "Frontend",
+        year: "2025",
+        department: "Abc"
+      },
+      {
+        id: "1002",
+        password: "abc456",
+        name: "backend",
+        year: "2024",
+        department: "Cde"
+      }
+    ];
+    const staff = [
+      {
+        id: "2001",
+        password: "staff123",
+        name: "Alice Smith",
+        department: "Librarian"
+      },
+      {
+        id: "2002",
+        password: "staff456",
+        name: "Bob Jones",
+        department: "Assistant"
+      }
+    ];
+
+    function loginUser() {
+      const role = document.getElementById("role").value;
+      const id = document.getElementById("userId").value.trim();
+      const pass = document.getElementById("userPass").value.trim();
+      let user = null;
+      if (role === "student") {
+        user = students.find(s => s.id === id && s.password === pass);
+        if (user) {
+          showProfile(user, role);
+        } else {
+          alert("Invalid Student ID or Password");
+        }
+      } else if (role === "staff") {
+        user = staff.find(s => s.id === id && s.password === pass);
+        if (user) {
+          showProfile(user, role);
+        } else {
+          alert("Invalid Staff ID or Password");
+        }
+      }
+    }
+
+    function showProfile(user, role) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("profilePage").style.display = "flex";
+      document.getElementById("pName").value = user.name;
+      document.getElementById("pDept").value = user.department;
+      if (role === "student") {
+        document.getElementById("yearRow").style.display = "grid";
+        document.getElementById("pYear").value = user.year;
+      } else {
+        document.getElementById("yearRow").style.display = "none";
+        document.getElementById("pYear").value = "";
+      }
+    }
+
+    function goBack() {
+      document.getElementById("profilePage").style.display = "none";
+      document.getElementById("loginForm").style.display = "flex";
+      document.getElementById("loginForm").reset();
+    }
+  </script>
+</body>
+</html>
